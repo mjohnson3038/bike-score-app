@@ -31,7 +31,8 @@ I chose to use Flask because I wanted to create an API endpoint for an app that 
 
 ## How to run
 ```
-export FLASK_APP=bike_score.py
+export FLASK_APP=bike_score_app
+export FLASK_ENV=development
 flask run
 ```
 

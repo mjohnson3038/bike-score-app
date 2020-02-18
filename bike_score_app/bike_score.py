@@ -1,14 +1,12 @@
-import functools
+from flask import Blueprint, request, jsonify
 
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
-)
+bp = Blueprint('bike_score', __name__, url_prefix='/api')
 
-bp = Blueprint('bike_score', __name__)
 
 @bp.route('/bike_score', methods=('GET', 'POST', ))
 def bike_score():
     # return 'hello bike score get'
+    print(request.get_json())
     
     if request.method == 'POST':
         error = None
@@ -18,4 +16,4 @@ def bike_score():
         if error is not None:
             flash(error)
     
-    return render_template('bike_score.html')
+    return jsonify({'bike_score': 79})
