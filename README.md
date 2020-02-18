@@ -21,7 +21,9 @@ The score will be be out of 100 with each factor making up an equal percentage o
 
 This project is in early development phase. 
 
-Current status: bike_score is only based on elevation of route
+The ultimate goal is to pass in a route and calculate the score based on this. 
+
+Right now, API integration is not complete, therefore, users must submit each factor (elevation gain, bike path availability, etc.) through the API. 
 
 ## Thought process
 
