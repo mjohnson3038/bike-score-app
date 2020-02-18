@@ -1,0 +1,2 @@
+graft bike_score_app/templates
+global-exclude *.pyc

@@ -22,10 +22,8 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    # a simple page that says hello
-    @app.route('/')
-    def hello():
-        return 'Hello, World!'
-
+        
+    from . import bike_score
+    app.register_blueprint(bike_score.bp)
+        
     return app
