@@ -7,9 +7,10 @@ from bike_score_app import bike_score as module
 from flask import json
 
 TEST_REQUEST_CONTENT = {
-	"distance": 6.9,
+	"total_distance": 6.9,
 	"points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
-	"bike_lane_availability": 40
+	"bike_lane_availability": 40,
+    "safety_incidents": 2,
 }
 
 def test_config():
@@ -73,6 +74,7 @@ def test_post_bike_score_returns_expected_json(client):
             'bike_lane_availability_score': 40,
             'net_elevation_gain': 1.3,
             'total_elevation_gain': 8.9,
+            'safety_incidents': 2,
         }
     }
 
