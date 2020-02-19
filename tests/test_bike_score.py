@@ -40,6 +40,21 @@ def test_bike_lane_availability_score_returns_percentage_of_bike_lanes_available
     assert expected == actual
 
 
+@pytest.mark.parametrize(('elevation_points', 'expected'), (
+    ([], 0),
+    ([2], 0),
+    ([2, 2], 0),
+    ([2, -3], 0),
+    ([2, 4], 2),
+    ([2, 4, 2], 2),
+    ([2, -13, -12, -13, -6, -8, -1, 0, 2, 3, 4, 2], 20),
+
+))
+def test_calculate_elevation_gain_returns_expected_elevation_gain(elevation_points, expected):
+    actual = module.calculate_elevation_gain(elevation_points)
+    assert expected == actual
+
+
 def test_post_bike_score_returns_expected_json(client):
     response = client.post(
         '/api/bike_score',
