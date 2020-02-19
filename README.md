@@ -30,7 +30,7 @@ This project is in early development phase.
 
 The ultimate goal is to pass in a route and calculate the score based on this.
 
-Right now, API integration is not complete, therefore, users must submit each factor (elevation gain, bike path availability, etc.) through the API. I may eventually add documentation but that can be accomodated through Flask.
+Right now, API integration is not complete, therefore, users must submit each factor (elevation gain, bike path availability, etc.) through the API.
 
 ## Thought process
 
@@ -56,9 +56,9 @@ curl -X POST \
   -d '{
     "data": {
       "total_distance": 6.9,
-      "points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
-      "bike_lane_availability": 40,
-      "safety_incidents": 1,
+    	"points_of_elevation": [1, 3.2, 5.0, 9.9, 1],
+    	"bike_lane_availability": 40,
+    	"safety_incidents": 2,
     }
   }'
 ```
@@ -68,10 +68,10 @@ curl -X POST \
 ```
 {
   "data": {
+    "bike_grade_score": 99.3551,
     "bike_lane_availability_score": 40,
-    "bike_score": 79,
-    "net_elevation_gain": 0,
-    "total_elevation_gain": 8.9
+    "bike_safety_score": 33.3333,
+    "bike_score": 58
   }
 }
 ```
