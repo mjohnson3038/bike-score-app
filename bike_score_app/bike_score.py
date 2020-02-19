@@ -7,6 +7,10 @@ def calculate_bike_lane_availability_score(bike_lane_availability):
     return bike_lane_availability
 
 
+def calculate_net_elevation_gain(starting_elevation, ending_elevation):
+    return ending_elevation - starting_elevation
+
+
 @bp.route('/bike_score', methods=('POST', ))
 def bike_score():
 

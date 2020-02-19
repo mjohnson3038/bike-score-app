@@ -2,7 +2,7 @@ import pytest
 
 
 from bike_score_app import create_app
-from bike_score_app.bike_score import calculate_bike_lane_availability_score
+from bike_score_app import bike_score as module
 
 from flask import json
 
@@ -15,6 +15,20 @@ def test_config():
     assert create_app({'TESTING': True}).testing
 
 
+@pytest.mark.parametrize(('start', 'end', 'expected'), (
+    (5, 5, 0),
+    (0, 0, 0),
+    (-4, -4, 0),
+    (-4, -3, 1),
+    (-4, 10, 14),
+    (10, 0, -10),
+    (1, -1, -2),
+))
+def test_net_elevation_gain_returns_expected_value(start, end, expected):
+    actual = module.calculate_net_elevation_gain(start, end)
+    assert expected == actual
+
+
 @pytest.mark.parametrize(('availability', 'expected'), (
     (100, 100),
     (0, 0),
@@ -22,7 +36,7 @@ def test_config():
     (33, 33),
 ))
 def test_bike_lane_availability_score_returns_percentage_of_bike_lanes_available(availability, expected):
-    actual = calculate_bike_lane_availability_score(availability)
+    actual = module.calculate_bike_lane_availability_score(availability)
     assert expected == actual
 
 
