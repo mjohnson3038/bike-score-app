@@ -16,6 +16,14 @@ To define and calculate a bike score for a particular bike ride similar to a wal
 
 The score will be be out of 100 with each factor making up an equal percentage of the score.
 
+#### Inputs
+<ul>
+  <li>`total_distance` - total distance of route, in miles</li>
+  <li>`points_of_elevation` - an even sampling of elevation throughout the ride, in feet</li>
+  <li>`bike_lane_availability` - percentage of bike ride on a bike path</li>
+  <li>`safety_incidents` - number of safety incidents that have occurred in the path 90 days along route</li>
+</ul>
+
 ## Project Status
 
 This project is in early development phase.
@@ -47,8 +55,10 @@ curl -X POST \
   -H 'Content-Type: application/json' \
   -d '{
     "data": {
-      "bike_lane_availability_score": 40,
-      "bike_score": 79
+      "total_distance": 6.9,
+      "points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
+      "bike_lane_availability": 40,
+      "safety_incidents": 1,
     }
   }'
 ```
@@ -59,7 +69,9 @@ curl -X POST \
 {
   "data": {
     "bike_lane_availability_score": 40,
-    "bike_score": 79
+    "bike_score": 79,
+    "net_elevation_gain": 0,
+    "total_elevation_gain": 8.9
   }
 }
 ```

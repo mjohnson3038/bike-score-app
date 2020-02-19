@@ -45,19 +45,38 @@ def calculate_bike_safety_score(safety_incidents):
     if safety_incidents == 0:
         return 100
 
-    score = 100 / (1 + safety_incidents)
+    score = (100 / (1 + safety_incidents))
     return round(score, 4)
+
+
+def calculate_bike_grade_score(total_elevation_gain, distance):
+    '''
+    total_elevation_gain - total elevation gained on the bike ride, in feet
+    distance - distance of route, in miles
+
+    My personal experience:
+
+    50 ft/ mile - good challenge
+    100 feet / mile - breathing hard
+    over 200 feet / mile - I'm walking
+    '''
+
+    elevation_per_miles = total_elevation_gain / distance
+    rounded_elevation_per_miles = round(elevation_per_miles, 4)
+    if elevation_per_miles > 200:
+        return 0
+
+    return round(100 - (1/2) * elevation_per_miles, 4)
 
 
 @bp.route('/bike_score', methods=('POST', ))
 def bike_score():
 
     if request.method == 'POST':
-        error = None
-
         bike_lane_availability = request.json.get('bike_lane_availability')
         points_of_elevation = request.json.get('points_of_elevation')
         safety_incidents = request.json.get('safety_incidents')
+        total_distance = request.json.get('total_distance')
 
         if not bike_lane_availability:
             print('bad formatting, need a better way to handle this')
@@ -65,16 +84,16 @@ def bike_score():
             print('bad formatting, need a better way to handle this')
         if not safety_incidents:
             print('bad formatting, need a better way to handle this')
+        if not total_distance:
+            print('bad formatting, need a better way to handle this')
 
-        if error is not None:
-            print(error)
+        total_elevation_gain = calculate_elevation_gain(points_of_elevation)
 
         content = {
             'bike_score': 79,
             'bike_lane_availability_score': calculate_bike_lane_availability_score(bike_lane_availability),
-            'total_elevation_gain': calculate_elevation_gain(points_of_elevation), # feet
-            'net_elevation_gain': calculate_net_elevation_gain(points_of_elevation), # feet
             'bike_safety_score': calculate_bike_safety_score(safety_incidents),
+            'bike_grade_score': calculate_bike_grade_score(total_elevation_gain, total_distance),
         }
 
     return jsonify(
