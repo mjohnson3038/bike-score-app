@@ -87,6 +87,16 @@ def test_calculate_bike_grade_score(total_elevation_gain, total_distance, expect
     assert expected == actual
 
 
+@pytest.mark.parametrize(('bike_lane_availability_score', 'bike_safety_score', 'bike_grade_score', 'expected'), (
+    (100, 100, 100, 100),
+    (50, 50, 100, 67),
+    (0, 0, 0, 0),
+))
+def test_calculate_bike_score(bike_lane_availability_score, bike_safety_score, bike_grade_score, expected):
+    actual = module.calculate_bike_score(bike_lane_availability_score, bike_safety_score, bike_grade_score)
+    assert expected == actual
+
+
 def test_post_bike_score_returns_expected_json(client):
     response = client.post(
         '/api/bike_score',
@@ -95,7 +105,7 @@ def test_post_bike_score_returns_expected_json(client):
 
     expected_response = {
         'data': {
-            'bike_score': 79,
+            'bike_score': 62,
             'bike_lane_availability_score': 40,
             'bike_safety_score': 50,
             'bike_grade_score': 95.55,

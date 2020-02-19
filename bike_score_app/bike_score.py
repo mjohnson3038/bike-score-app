@@ -69,6 +69,16 @@ def calculate_bike_grade_score(total_elevation_gain, distance):
     return round(100 - (1/2) * elevation_per_miles, 4)
 
 
+def calculate_bike_score(bike_lane_availability_score, bike_safety_score, bike_grade_score):
+    '''
+    The bike score is out of 100 and equal parts all subscores. This score is
+    comprised of `bike_lane_availability_score`, `bike_safety_score`, and `bike_grade_score`.
+    '''
+
+    sum_of_scores = bike_lane_availability_score + bike_safety_score + bike_grade_score
+    return round(sum_of_scores/3, 0)
+
+
 @bp.route('/bike_score', methods=('POST', ))
 def bike_score():
 
@@ -88,12 +98,16 @@ def bike_score():
             print('bad formatting, need a better way to handle this')
 
         total_elevation_gain = calculate_elevation_gain(points_of_elevation)
+        bike_lane_availability_score = calculate_bike_lane_availability_score(bike_lane_availability)
+        bike_safety_score = calculate_bike_safety_score(safety_incidents)
+        bike_grade_score = calculate_bike_grade_score(total_elevation_gain, total_distance)
+        bike_score = calculate_bike_score(bike_lane_availability_score, bike_safety_score, bike_grade_score)
 
         content = {
-            'bike_score': 79,
-            'bike_lane_availability_score': calculate_bike_lane_availability_score(bike_lane_availability),
-            'bike_safety_score': calculate_bike_safety_score(safety_incidents),
-            'bike_grade_score': calculate_bike_grade_score(total_elevation_gain, total_distance),
+            'bike_score': bike_score,
+            'bike_lane_availability_score': bike_lane_availability_score,
+            'bike_safety_score': bike_safety_score,
+            'bike_grade_score': bike_grade_score,
         }
 
     return jsonify(
