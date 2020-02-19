@@ -7,9 +7,9 @@ To define and calculate a bike score for a particular bike ride similar to a wal
 ### Factors to consider:
 
 <ul>
-  <li>NOT IMPLEMENTED - Elevation gain over specified distance</li>
-  <li>NOT IMPLEMENTED - Bike path availability, bike path > bike lane in road > no bike lane</li>
-  <li>NOT IMPLEMENTED - Incidents along route, as some indication of safety</li>
+  <li>Elevation gain over specified distance</li>
+  <li>Bike path availability, bike path > bike lane in road > no bike lane</li>
+  <li>Incidents along route, as some indication of safety</li>
 </ul>
 
 ### How is the score calculated?
@@ -28,7 +28,7 @@ The score will be be out of 100 with each factor making up an equal percentage o
 
 This project is in early development phase.
 
-The ultimate goal is to pass in a route and calculate the score based on this.
+The ultimate goal is to pass in a start and end point and calculate the score based on this. Based on my initial research, I think I can do most of this through the Google Maps API. I will need to leverage state road data to get the safety incidents. I suspect understanding how many happened along a particular route being a big challenge because I will have to map incidents to points and then determine if a route goes through or near that point.
 
 Right now, API integration is not complete, therefore, users must submit each factor (elevation gain, bike path availability, etc.) through the API.
 
