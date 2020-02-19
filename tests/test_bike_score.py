@@ -7,7 +7,9 @@ from bike_score_app import bike_score as module
 from flask import json
 
 TEST_REQUEST_CONTENT = {
-   'bike_lane_availability': 80
+	"distance": 6.9,
+	"points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
+	"bike_lane_availability": 40
 }
 
 def test_config():
@@ -15,17 +17,21 @@ def test_config():
     assert create_app({'TESTING': True}).testing
 
 
-@pytest.mark.parametrize(('start', 'end', 'expected'), (
-    (5, 5, 0),
-    (0, 0, 0),
-    (-4, -4, 0),
-    (-4, -3, 1),
-    (-4, 10, 14),
-    (10, 0, -10),
-    (1, -1, -2),
+@pytest.mark.parametrize(('points_of_elevation', 'expected'), (
+    ([], 0),
+    ([5], 0),
+    ([5, 5], 0),
+    ([0, 0], 0),
+    ([-4, -4], 0),
+    ([-4, -3], 1),
+    ([-4, 10], 14),
+    ([10, 0], -10),
+    ([0, 100, 0], 0),
+    ([1, 100, -1], -2),
+    ([1, -100, -1], -2),
 ))
-def test_net_elevation_gain_returns_expected_value(start, end, expected):
-    actual = module.calculate_net_elevation_gain(start, end)
+def test_net_elevation_gain_returns_expected_value(points_of_elevation, expected):
+    actual = module.calculate_net_elevation_gain(points_of_elevation)
     assert expected == actual
 
 
@@ -64,12 +70,10 @@ def test_post_bike_score_returns_expected_json(client):
     expected_response = {
         'data': {
             'bike_score': 79,
-            'bike_lane_availability_score': 80,
+            'bike_lane_availability_score': 40,
+            'net_elevation_gain': 1.3,
+            'total_elevation_gain': 8.9,
         }
     }
 
     assert json.loads(response.data) == expected_response
-
-# def test_get_bike_score_returns_405(client):
-#     response = client.get('/api/bike_score')
-#     assert response.status == '405 METHOD NOT ALLOWED'

@@ -9,7 +9,6 @@ To define and calculate a bike score for a particular bike ride similar to a wal
 <ul>
   <li>NOT IMPLEMENTED - Elevation gain over specified distance</li>
   <li>NOT IMPLEMENTED - Bike path availability, bike path > bike lane in road > no bike lane</li>
-  <li>NOT IMPLEMENTED - When riding on a road, what is the condition of the road? Residential? Speed?</li>
   <li>NOT IMPLEMENTED - Incidents along route, as some indication of safety</li>
 </ul>
 

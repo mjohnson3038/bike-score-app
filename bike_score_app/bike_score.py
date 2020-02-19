@@ -7,8 +7,12 @@ def calculate_bike_lane_availability_score(bike_lane_availability):
     return bike_lane_availability
 
 
-def calculate_net_elevation_gain(starting_elevation, ending_elevation):
-    return ending_elevation - starting_elevation
+def calculate_net_elevation_gain(elevation_points):
+    if len(elevation_points) < 2:
+        return 0
+
+    net_change = elevation_points[-1] - elevation_points[0]
+    return round(net_change, 4)
 
 
 def calculate_elevation_gain(elevation_points):
@@ -41,8 +45,11 @@ def bike_score():
         error = None
 
         bike_lane_availability = request.json.get('bike_lane_availability')
+        points_of_elevation = request.json.get('points_of_elevation')
 
         if not bike_lane_availability:
+            print('bad formatting, need a better way to handle this')
+        if not points_of_elevation:
             print('bad formatting, need a better way to handle this')
 
         if error is not None:
@@ -51,6 +58,8 @@ def bike_score():
         content = {
             'bike_score': 79,
             'bike_lane_availability_score': bike_lane_availability,
+            'total_elevation_gain': calculate_elevation_gain(points_of_elevation),
+            'net_elevation_gain': calculate_net_elevation_gain(points_of_elevation),
         }
 
     return jsonify(
