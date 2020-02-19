@@ -23,7 +23,7 @@ This project is in early development phase.
 
 The ultimate goal is to pass in a route and calculate the score based on this. 
 
-Right now, API integration is not complete, therefore, users must submit each factor (elevation gain, bike path availability, etc.) through the API. 
+Right now, API integration is not complete, therefore, users must submit each factor (elevation gain, bike path availability, etc.) through the API. I may eventually add documentation but that can be accomodated through Flask.
 
 ## Thought process
 
