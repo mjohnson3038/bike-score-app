@@ -10,7 +10,7 @@ TEST_REQUEST_CONTENT = {
 	"total_distance": 6.9,
 	"points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
 	"bike_lane_availability": 40,
-    "safety_incidents": 2,
+    "safety_incidents": 1,
 }
 
 def test_config():
@@ -62,6 +62,18 @@ def test_calculate_elevation_gain_returns_expected_elevation_gain(elevation_poin
     assert expected == actual
 
 
+@pytest.mark.parametrize(('num_of_incidents', 'expected'), (
+    (0, 100),
+    (1, 50),
+    (2, 33.3333),
+    (3, 25),
+    (4, 20),
+))
+def test_calculate_bike_safety_score(num_of_incidents, expected):
+    actual = module.calculate_bike_safety_score(num_of_incidents)
+    assert expected == actual
+
+
 def test_post_bike_score_returns_expected_json(client):
     response = client.post(
         '/api/bike_score',
@@ -74,7 +86,7 @@ def test_post_bike_score_returns_expected_json(client):
             'bike_lane_availability_score': 40,
             'net_elevation_gain': 1.3,
             'total_elevation_gain': 8.9,
-            'safety_incidents': 2,
+            'bike_safety_score': 50,
         }
     }
 
