@@ -54,6 +54,17 @@ curl -X POST \
   }'
 ```
 
+### Sample response
+
+```
+{
+  "data": {
+    "bike_lane_availability_score": 40,
+    "bike_score": 79
+  }
+}
+```
+
 ## How to run tests
 Test run using pytest and coverage. Install these, if you haven't already (`pip3 install pytest coverage`)
 
