@@ -2,7 +2,9 @@
 
 To define and calculate a bike score for a particular bike ride similar to a walk or transit score.
 
-## How is it calculated?
+## What is it and how is it calculated?
+
+A bike score is a way to assess a bike route. Scores are out of 100. This API endpoint also provides scores for elevation grade, safety, and bike lane availability. These scores are also out of 100.
 
 ### Factors to consider:
 
