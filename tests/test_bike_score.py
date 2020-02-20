@@ -113,3 +113,43 @@ def test_post_bike_score_returns_expected_json(client):
     }
 
     assert json.loads(response.data) == expected_response
+
+
+@pytest.mark.parametrize(('fields',), (
+	(
+		{
+			"total_distance": 1,
+			"points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
+		    "safety_incidents": 1,
+		},
+
+	),
+	(
+		{
+			"points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
+			"bike_lane_availability": 40,
+		    "safety_incidents": 1,
+		},
+	),
+	(
+		{
+			"total_distance": 1,
+			"bike_lane_availability": 40,
+		    "safety_incidents": 1,
+		},
+	),
+	(
+		{
+			"total_distance": 1,
+			"points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
+		    "safety_incidents": 1,
+		},
+	),
+))
+def test_post_bike_score_returns_400_when_missing_key_in_request_body(client, fields):
+    response = client.post(
+        '/api/bike_score',
+         json=fields
+    )
+
+    assert response.status == '400 BAD REQUEST'

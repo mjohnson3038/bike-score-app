@@ -89,13 +89,13 @@ def bike_score():
         total_distance = request.json.get('total_distance')
 
         if not bike_lane_availability:
-            print('bad formatting, need a better way to handle this')
+            return "`bike_lane_availability` is a required field and must be included in the body of the request.", 400
         if not points_of_elevation:
-            print('bad formatting, need a better way to handle this')
+            return "`points_of_elevation` is a required field and must be included in the body of the request.", 400
         if not safety_incidents:
-            print('bad formatting, need a better way to handle this')
+            return "`safety_incidents` is a required field and must be included in the body of the request.", 400
         if not total_distance:
-            print('bad formatting, need a better way to handle this')
+            return "`total_distance` is a required field and must be included in the body of the request.", 400
 
         total_elevation_gain = calculate_elevation_gain(points_of_elevation)
         bike_lane_availability_score = calculate_bike_lane_availability_score(bike_lane_availability)
