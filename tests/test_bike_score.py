@@ -7,10 +7,10 @@ from bike_score_app import bike_score as module
 from flask import json
 
 TEST_REQUEST_CONTENT = {
-	"total_distance": 1,
-	"points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
-	"bike_lane_availability": 40,
-    "safety_incidents": 1,
+	"total_distance": "1",
+	"points_of_elevation": "[1, 3.2, 5.0, 9.9, 2.3]",
+	"bike_lane_availability": "40",
+    "safety_incidents": "1",
 }
 
 def test_config():
@@ -97,10 +97,10 @@ def test_calculate_bike_score(bike_lane_availability_score, bike_safety_score, b
     assert expected == actual
 
 
-def test_post_bike_score_returns_expected_json(client):
-    response = client.post(
+def test_get_bike_score_returns_expected_json(client):
+    response = client.get(
         '/api/bike_score',
-         json=TEST_REQUEST_CONTENT
+         query_string=TEST_REQUEST_CONTENT
     )
 
     expected_response = {
@@ -114,42 +114,41 @@ def test_post_bike_score_returns_expected_json(client):
 
     assert json.loads(response.data) == expected_response
 
-
 @pytest.mark.parametrize(('fields',), (
 	(
 		{
-			"total_distance": 1,
-			"points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
-		    "safety_incidents": 1,
+			"total_distance": "1",
+			"points_of_elevation": "[1, 3.2, 5.0, 9.9, 2.3]",
+		    "safety_incidents": "1",
 		},
 
 	),
 	(
 		{
-			"points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
-			"bike_lane_availability": 40,
-		    "safety_incidents": 1,
+			"points_of_elevation": "[1, 3.2, 5.0, 9.9, 2.3]",
+			"bike_lane_availability": "40",
+		    "safety_incidents": "1",
 		},
 	),
 	(
 		{
-			"total_distance": 1,
-			"bike_lane_availability": 40,
-		    "safety_incidents": 1,
+			"total_distance": "1",
+			"bike_lane_availability": "40",
+		    "safety_incidents": "1",
 		},
 	),
 	(
 		{
-			"total_distance": 1,
-			"points_of_elevation": [1, 3.2, 5.0, 9.9, 2.3],
-		    "safety_incidents": 1,
+			"total_distance": "1",
+			"points_of_elevation": "[1, 3.2, 5.0, 9.9, 2.3]",
+		    "safety_incidents": "1",
 		},
 	),
 ))
-def test_post_bike_score_returns_400_when_missing_key_in_request_body(client, fields):
-    response = client.post(
+def test_get_bike_score_returns_400_when_missing_key_in_request(client, fields):
+    response = client.get(
         '/api/bike_score',
-         json=fields
+         query_string=fields
     )
 
     assert response.status == '400 BAD REQUEST'

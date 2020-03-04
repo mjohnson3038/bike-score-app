@@ -1,6 +1,12 @@
-from flask import Blueprint, request, jsonify, flash
+import json
+from flask import Blueprint, current_app, request, jsonify, flash
+from .constants import SAMPLE_GOOGLE_DIRECTIONS_RESPONSE_200
 
 bp = Blueprint('bike_score', __name__, url_prefix='/api')
+
+
+def get_google_route(origin, desitination):
+    return SAMPLE_GOOGLE_RESPONSE_200
 
 
 def calculate_net_elevation_gain(elevation_points):
@@ -79,23 +85,25 @@ def calculate_bike_score(bike_lane_availability_score, bike_safety_score, bike_g
     return round(sum_of_scores/3, 0)
 
 
-@bp.route('/bike_score', methods=('POST', ))
-def bike_score():
+get_value = lambda raw_value, clean_function: None if raw_value is None else clean_function(raw_value)
 
-    if request.method == 'POST':
-        bike_lane_availability = request.json.get('bike_lane_availability')
-        points_of_elevation = request.json.get('points_of_elevation')
-        safety_incidents = request.json.get('safety_incidents')
-        total_distance = request.json.get('total_distance')
+
+@bp.route('/bike_score', methods=('GET', ))
+def bike_score():
+    if request.method == 'GET':
+        bike_lane_availability = get_value(request.args.get('bike_lane_availability'), int)
+        points_of_elevation = get_value(request.args.get('points_of_elevation'), json.loads)
+        safety_incidents = get_value(request.args.get('safety_incidents'), int)
+        total_distance = get_value(request.args.get('total_distance'), float)
 
         if not bike_lane_availability:
-            return "`bike_lane_availability` is a required field and must be included in the body of the request.", 400
+            return "`bike_lane_availability` is a required field and must be included in the parameters.", 400
         if not points_of_elevation:
-            return "`points_of_elevation` is a required field and must be included in the body of the request.", 400
+            return "`points_of_elevation` is a required field and must be included in the parameters.", 400
         if not safety_incidents:
-            return "`safety_incidents` is a required field and must be included in the body of the request.", 400
+            return "`safety_incidents` is a required field and must be included in the parameters.", 400
         if not total_distance:
-            return "`total_distance` is a required field and must be included in the body of the request.", 400
+            return "`total_distance` is a required field and must be included in the parameters.", 400
 
         total_elevation_gain = calculate_elevation_gain(points_of_elevation)
         bike_lane_availability_score = calculate_bike_lane_availability_score(bike_lane_availability)
@@ -110,8 +118,9 @@ def bike_score():
             'bike_grade_score': bike_grade_score,
         }
 
-    return jsonify(
-        {
+        return {
             'data': content,
         }
-    )
+
+    if __name__ == '__main__':
+        print('hello world')

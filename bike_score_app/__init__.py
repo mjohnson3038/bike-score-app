@@ -8,6 +8,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
+        GOOGLE_API_SECRET_KEY='secret_key'
     )
 
     if test_config is None:
@@ -22,8 +23,8 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-        
+
     from . import bike_score
     app.register_blueprint(bike_score.bp)
-        
+
     return app

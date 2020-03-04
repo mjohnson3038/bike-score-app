@@ -47,22 +47,22 @@ export FLASK_ENV=development
 flask run
 ```
 
+### Activate virtual environment to develop locally
+```
+source venv/bin/activate
+```
+
 ### Sample request
 
 Note, this sample request assumes you are running this on your host machine.
 
 ```
 curl -X POST \
-  localhost:5000/api/bike_score \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "data": {
-      "total_distance": 6.9,
-    	"points_of_elevation": [1, 3.2, 5.0, 9.9, 1],
-    	"bike_lane_availability": 40,
-    	"safety_incidents": 2,
-    }
-  }'
+  http://127.0.0.1:5000/api/bike_score?
+    total_distance=6.9&
+    points_of_elevation=[1, 3.2, 5.0, 9.9, 1]&
+    bike_lane_availability=40&
+    safety_incidents=2
 ```
 
 ### Sample response
